@@ -1,0 +1,134 @@
+﻿@using ChinaHCM.QA.Core.Model
+@using ChinaHCM.QA.Site.Model
+@model TopicView
+<div class="TopicManager clearfix">
+    <strong>主贴管理： </strong><span id="Top"><a>置顶</a> </span><span>
+        @if (!Model.IsDigest)
+        {
+            @Ajax.ActionLink("精华", "SetDegist", "Topic", new { topicId = Model.TopicId },
+            new AjaxOptions() { HttpMethod = "Post", OnSuccess = "SetDegistSuccess", Confirm = "确认要将此贴设置为精华么？" },
+            new { id = "Degist" })
+        }
+        else
+        {
+            @Ajax.ActionLink("取消精华", "SetDegist", "Topic", new { topicId = Model.TopicId },
+            new AjaxOptions() { HttpMethod = "Post", OnSuccess = "CancelDegistSuccess", Confirm = "确认要将此贴取消精华么？" },
+            new { id = "Degist" })
+        }
+    </span>
+    @if (!Model.IsLock)
+    {
+        <span>
+            @Ajax.ActionLink("锁定", "SetLock", "Topic", new { topicId = Model.TopicId },
+             new AjaxOptions() { HttpMethod = "Post", OnSuccess = "SetLockSuccess", Confirm = "确认要将此贴锁定么？锁定后帖子将无法回复。" },
+             new { id = "Lock" })
+        </span>
+    }
+    else
+    {
+        if (!(Model.TopicType == BoardType.QA && Model.IsFinish))
+        { 
+        <span>
+            @Ajax.ActionLink("取消锁定", "SetLock", "Topic", new { topicId = Model.TopicId },
+                 new AjaxOptions() { HttpMethod = "Post", OnSuccess = "CancelLockSuccess" },
+                 new { id = "Lock" })
+        </span>
+        }
+    }
+    @if (Model.TopicType == BoardType.QA && !Model.IsFinish )
+    { 
+        <span><a href="javascript:void(0)" onclick="LoadPage()">录入正确答案</a> </span>
+    }
+</div>
+<!--录入正确用-->
+<div id="Answer">
+</div>
+<!--录入正确用 end-->
+<script type="text/javascript">
+    $(function () {
+        $("#Top").powerFloat({ eventType: "click", 
+        target: "@Html.Raw(@Url.Action("ListTop", new { boardId = Model.BoardId, topicId = Model.TopicId }))", 
+        targetMode: "ajax",
+        eventType:"hover",
+        position:"4-1" ,
+        reverseSharp:"false",
+        offsets: {
+            x: 0,
+            y: -1    
+        },
+        showCall: function() {
+            $(this).addClass("Tophover");    
+        },
+        hideCall: function() {
+            $(this).removeClass("Tophover");
+        }
+        });
+    });
+
+    function SetDegistSuccess(data) {
+        if (data.Flag == "0") {
+            ZENG.msgbox.show("设置精华成功", 4, 2000);
+            $("#Degist").html("取消精华").attr("data-ajax-success", "CancelDegistSuccess").attr("data-ajax-confirm", "确认要将此贴取消精华么？");            
+            $("#TopicTitle").prepend("<img id=\"DigistImg\" title=\"精华\" src=\"/QA/Images/star.gif\">");
+        }
+    }
+
+    function CancelDegistSuccess(data) {
+        if (data.Flag == "0") {
+            ZENG.msgbox.show("取消精华成功", 4, 2000);
+            $("#Degist").html("精华").attr("data-ajax-success", "SetDegistSuccess").attr("data-ajax-confirm", "确认要将此贴设置为精华么？");
+            $("#DigistImg").remove();
+        }
+    }
+
+    function SetLockSuccess(data) {
+        if (data.Flag == "0") {
+            ZENG.msgbox.show("锁定成功", 4, 2000);
+            $("#Lock").html("取消锁定").attr("data-ajax-success", "CancelLockSuccess").attr("data-ajax-confirm", "");
+            $("#TopicTitle").prepend("<img id=\"LockImg\" title=\"锁定\" src=\"/QA/Images/ico_lock.gif\">");
+        }
+    }
+
+    function CancelLockSuccess(data) {
+        if (data.Flag == "0") {
+            ZENG.msgbox.show("取消锁定成功", 4, 2000);
+            $("#Lock").html("锁定").attr("data-ajax-success", "SetLockSuccess").attr("data-ajax-confirm", "确认要将此贴锁定么？锁定后帖子将无法回复。");
+            $("#LockImg").remove();
+        }
+    }
+
+    function SetTopSuccess(data) {
+     if (data.Flag == "0") {
+            location.reload();
+        }
+    }
+    /*以下是录入正确答案用*/
+    function hide() {        
+        $('#Answer').empty();
+    }
+//加载页面
+    function LoadPage() {
+        try {
+            $.ajax({
+                type: "Get",
+                url: "@Html.Raw(@Url.Action("GetAnswer", new { topicId = Model.TopicId }))",
+                async: false,
+                success: function (msg) {
+                    $('#Answer').append(msg);
+                }
+            });
+        }
+        catch (e) { }
+    }         
+
+    function OnSaveAnswerSuccess(data) {
+        if (data.Flag == "0") {
+            ZENG.msgbox.show("回复成功", 4, 2000);
+            location.reload();
+        }
+        else {
+            $("#showMes").empty();
+            $("#showMes").append(data.ErrMsg);
+        }
+    }
+</script>

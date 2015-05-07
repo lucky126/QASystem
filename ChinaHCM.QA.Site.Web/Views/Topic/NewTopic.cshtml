@@ -1,0 +1,97 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@model NewTopicModel
+@{
+    ViewBag.Title = " 互动交流系统--我的提问";
+}
+@{Html.RenderPartial("PartialTopBanner", new TopBannerModel() { BoardId = @Model.BoardId });}
+<div class="row">
+    @Html.Action("Nav", "Topic", new { boardId = @Model.BoardId, lastNav = "我的提问" })
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        我的提问
+    </div>
+    @using (Html.BeginForm("NewTopic", "Topic",FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="panel-body">
+            <div class="form-group">@Html.ValidationSummary(true)</div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-7">
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "提问标题" })
+                    还可以输入<span id="TitleLen" class="TitleLen">0</span>个字符
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.Title)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Content, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-7">
+                    @Html.TextAreaFor(m => m.Content, 8, 118, new { @class = "form-control", placeholder = "请输入对问题的补充说明" })
+                    还可以输入<span id="ContentLen" class="TitleLen">0</span>个字符
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.Content)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Keywords, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-7">
+                    @Html.TextBoxFor(m => m.Keywords, new { @class = "form-control", placeholder = "关键字" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.Keywords)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.HiddenFor(m => m.BoardId)
+                    <input type="submit" value=" 提交问题 " class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script language="javascript">
+    $(document).ready(function () {
+        jisuanzishu();
+    });
+
+    function jisuanzishu() {
+        var MaxTitleLength = 50;
+        var MaxConLength = 500;
+
+        if ($("#Title").val() != undefined) {
+            $("#ContentLen").html(MaxConLength - $("#Content").val().length);
+            $("#TitleLen").html(MaxTitleLength - $("#Title").val().length);
+
+            $("#Title").keyup(function () {
+                var ContLen = $("#Title").val().length;
+                var NowLen = MaxTitleLength - ContLen;
+                $("#TitleLen").html(NowLen.toString());
+                if (NowLen <= 0) {
+                    $("#Title").val($("#Title").val().substring(0, MaxTitleLength));
+                    $("#TitleLen").html("0");
+                }
+            });
+
+            $("#Content").keyup(function () {
+                var ContLen = $("#Content").val().length;
+                var NowLen = MaxConLength - ContLen;
+                $("#ContentLen").html(NowLen.toString());
+                if (NowLen <= 0) {
+                    $("#Content").val($("#Content").val().substring(0, MaxConLength));
+                    $("#ContentLen").html("0");
+                }
+            });
+        }
+    }
+
+</script>

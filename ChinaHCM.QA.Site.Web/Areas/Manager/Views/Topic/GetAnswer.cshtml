@@ -1,0 +1,39 @@
+﻿@using ChinaHCM.QA.Site.Model
+@model AnswerModel
+@{
+    Layout = null;    
+}
+@using (Ajax.BeginForm("GetAnswerSave", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSaveAnswerSuccess"
+}))
+{   
+    <div class="QAReply">
+        <table class="QAReplayTable" cellpadding="4" cellspacing="1">
+            <tr>
+                <td class="QAReplayTitle">
+                    录入正确答案
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.TextAreaFor(m => m.ReplyContent, 6, 20, new { @Class = "txtReply" })@Html.ValidationMessageFor(m => m.ReplyContent)
+                </td>
+            </tr>
+            <tr>
+                <td class="QAReplayTitle">
+                    答案显示方式：@Html.DropDownList("AnswerMode")
+                </td>
+            </tr>
+        </table>
+        <p class="ReplyButton">
+            @Html.HiddenFor(m => m.BoardId)
+            @Html.HiddenFor(m => m.TopicId)
+            <input id="btnReply" type="submit" value="提交回复" name="btnReply" />
+            <input type="button" value=" 关 闭 " onclick="hide()" />
+        </p>
+        <p>
+            <span id="showMes">@Html.ValidationSummary(true)</span>
+        </p>
+    </div>
+}

@@ -1,0 +1,81 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@using ChinaHCM.QA.Core.Model
+@model SearchResult
+@{
+    PagingInfo pagingInfo = new PagingInfo
+    {
+        PageIndex = (int)ViewBag.PageIndex,
+        RecordCount = (int)ViewBag.RecordCount
+    };
+    Func<int, UrlHelper, string> pageUrlAccessor = (Func<int, UrlHelper, string>)ViewBag.PageUrlAccessor;
+}
+@*发帖搜索*@
+@{Html.RenderPartial("PartialTopBanner", new TopBannerModel() { BoardId = @Model.Search.BoardId });}
+@*导航*@
+<div class="row">
+    @Html.Action("Nav", "Topic", new { boardId = @Model.Search.BoardId, lastNav = "搜索结果" })
+</div>
+@*搜索条件描述*@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>搜索结果:</b>
+        <ul>
+            <li>搜索内容：@Model.Search.SearchContext</li>
+            <li>搜索范围：@{Html.RenderAction("GetBoardName", "Board", new { boardId = @Model.Search.SearchScope });}</li>
+            <li>搜索类型：@GlobalConst.SearchTypeName[(int)@Model.Search.SearchType]</li>
+            <li>发帖时间：@GlobalConst.PostTimeTypeName[(int)Model.Search.PostTime]</li>
+        </ul>
+    </div>
+
+    <div class="panel-body">
+        @*搜索结果*@
+        @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+        <table cellpadding="4" cellspacing="1" border="0" class="table table-striped table-hover">
+
+            <td width="59%">
+                标题
+            </td>
+            <td width="8%">
+                发起人
+            </td>
+            <td width="6%">
+                回复
+            </td>
+            <td width="6%">
+                状态
+            </td>
+            <td width="21%">
+                发起时间
+            </td>
+
+            @if (Model.topics.Count() > 0)
+            {
+                <tbody>
+                    @foreach (TopicView topic in this.Model.topics)
+                    {
+                        <tr>
+                            <td>
+                                @Html.RouteLink(@topic.Title, "TopicPage", new { topicId = @topic.TopicId, boardId = @topic.BoardId }, new { target = "_blank" })
+                            </td>
+                            <td class="textCenter">
+                                @topic.PostUserName
+                            </td>
+                            <td class="textCenter">
+                                @topic.Child
+                            </td>
+                            <td class="textCenter">
+                                @Html.TopicFinish(@topic.IsFinish)
+                            </td>
+                            <td class="textCenter">
+                                @Html.DateTimeLeaveString(@topic.PostTime)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+        @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+    </div>
+</div>

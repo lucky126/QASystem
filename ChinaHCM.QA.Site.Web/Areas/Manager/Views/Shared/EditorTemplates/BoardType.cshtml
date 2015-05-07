@@ -1,0 +1,12 @@
+﻿@using ChinaHCM.QA.Core.Model
+@model BoardType
+@foreach (int value in Enum.GetValues(typeof(BoardType)))
+{
+    if (value != (int)BoardType.None)
+    { 
+    <span>
+        @Html.RadioButton(Enum.GetName(Model.GetType(), value), value, value == (int)Model, new { @Name = "BoardType" })
+        @GlobalConst.BoardTypeName[value]
+    </span>
+    }
+}

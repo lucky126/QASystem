@@ -1,0 +1,24 @@
+﻿@using ChinaHCM.QA.Core.Model
+@using  ChinaHCM.QA.Site.Web.Models
+
+@model QATypeNav           
+@{
+    Layout = null;
+}
+
+<ul class="nav nav-pills nav-justified">
+    @foreach (int item in Enum.GetValues(typeof(QAType)))
+    {
+        if (item != (int)QAType.Zero)
+        {
+            if ((int)Model.QAType == item)
+            {
+                <li class="active"><a href="#">@GlobalConst.QATypeName[item]</a></li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(@GlobalConst.QATypeName[item], "GetBoard", new { boardId = Model.BoardId, qatype = item })</li>
+            }
+        }
+    }
+</ul>

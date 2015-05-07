@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>互动交流MVC版管理系统--首页</title>
+</head>
+<frameset rows="100,*" cols="*" framespacing="0" frameborder="no" border="0">
+  <frame src="@Url.Action("Top", "Board")" name="Top" scrolling="No" noresize="noresize" id="Top" title="topFrame" />
+  <frameset rows="*" cols="200,*" framespacing="2" frameborder="no" >
+    <frame src="@Url.Action("Nav", "Board")" name="Left" scrolling="No" noresize="noresize" id="Left" title="leftFrame" target="Main"/>
+    <frame src="@Url.Action("Main", "Board")" name="Main" id="Main" title="mainFrame" />
+  </frameset>
+</frameset>
+<noframes>
+    <body>
+    </body>
+</noframes>
+</html>

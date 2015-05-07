@@ -1,0 +1,34 @@
+﻿@using ChinaHCM.QA.Site.Model
+@model ReplyMode
+@{
+    Layout = null;
+}
+@using (Html.BeginForm(@Model.ActionName, "BBS"))
+{   
+    <div class="QAReply">
+        <table class="QAReplayTable" cellpadding="4" cellspacing="1">
+            <tr>
+                <td class="QAReplayTitle">
+                    @Model.Title
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.TextAreaFor(m => m.ReplyContent, 6, 20, new { @Class = "txtReply" })
+                </td>
+            </tr>
+        </table>
+        <p class="ReplyButton">
+            @Html.HiddenFor(m => m.TopicId)
+            @Html.HiddenFor(m => m.BoardId)
+            @Html.HiddenFor(m => m.BBSId)
+            <input id="btnReply" type="submit" value="@Model.SubmitButtonValue" name="btnReply" />
+            @if (Model.IsShowCloseButton)
+            {                 
+            <input id="btnClose" type="submit" value=" 关 闭 " name="btnClose" onclick="@Model.CloseJSFunction" />
+            }
+        </p>
+        <p>
+            @Html.ValidationSummary()
+        </p>
+    </div>
+}

@@ -1,0 +1,54 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Core.Model
+@using ChinaHCM.QA.Site.Web.Models
+@model BoardView
+@{
+    ViewBag.Title = "互动交流系统-" + @Model.Name;
+}
+@*发帖搜索*@
+@{Html.RenderPartial("PartialTopBanner", new TopBannerModel() { BoardId = @Model.BoardId });}
+@*导航*@
+<div class="row">
+    @Html.Action("Nav", "Topic", new { boardId = @Model.BoardId })
+    <div class="col-lg-4 breadcrumb ">
+        @{Html.RenderPartial("PartialMasterName", @Model.Master, new ViewDataDictionary());}
+    </div>
+</div>
+@*子版区*@
+@if (!Model.IsLeaf)
+{
+    <div class="panel panel-default">
+        @if (Model.Depth != 0)
+        {
+            <div class="panel-heading">
+                <span class="ParentBoardName">子版区</span>
+            </div>
+        }
+        <div class="panel-body">
+            @Html.Action("GetChild", new { parentId = @Model.BoardId })
+        </div>
+    </div>
+}
+    @*主贴列表*@
+    <div id="listBody">
+        <div class="clearfix">
+            @if (Model.BoardType == BoardType.QA)
+            {   //QA 启用左右结构
+                @Html.Partial("PartialQATypeNav", new QATypeNav() { BoardId = @Model.BoardId, QAType = (QAType)ViewData["QAType"] })
+
+                <div class="panel panel-default">
+                    <div class="table-responsive clearfix">
+                        @Html.Action("GetTopics", "Topic", new { boardId = @Model.BoardId, pageIndex = @ViewBag.PageIndex })
+                    </div>
+                </div>
+            }
+            else
+            {   //论坛不启用左右结构
+                <div class="panel panel-default">
+                    <div class="table-responsive clearfix">
+                        @Html.Action("GetTopics", "Topic", new { boardId = @Model.BoardId, pageIndex = @ViewBag.PageIndex, qatype = ViewData["QAType"] })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>

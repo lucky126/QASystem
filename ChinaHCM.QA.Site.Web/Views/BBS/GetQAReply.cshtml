@@ -1,0 +1,29 @@
+﻿@using ChinaHCM.QA.Site.Model
+@model ReplyMode
+@{
+    Layout = null;
+}
+@using (Html.BeginForm(@Model.ActionName, "BBS"))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @Model.Title
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                @Html.TextAreaFor(m => m.ReplyContent, 6, 20, new { @class = "form-control" })
+            </li>
+
+            <li class="list-group-item text-right">
+                @Html.HiddenFor(m => m.TopicId)
+                @Html.HiddenFor(m => m.BoardId)
+                @Html.HiddenFor(m => m.BBSId)
+                <input id="btnReply" type="submit" value="@Model.SubmitButtonValue" name="btnReply" class="btn btn-primary" />
+                @if (Model.IsShowCloseButton)
+                {
+                    <input id="btnClose" type="submit" value=" 关 闭 " name="btnClose" onclick="@Model.CloseJSFunction" class="btn btn-default" />
+                }
+            </li>
+        </ul>
+    </div>
+}

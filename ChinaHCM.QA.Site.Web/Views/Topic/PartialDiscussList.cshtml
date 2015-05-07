@@ -1,0 +1,53 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@model IEnumerable<TopicView>
+@{
+    PagingInfo pagingInfo = new PagingInfo
+    {
+        PageIndex = (int)ViewBag.PageIndex,
+        RecordCount = (int)ViewBag.RecordCount
+    };
+    Func<int, UrlHelper, string> pageUrlAccessor = (Func<int, UrlHelper, string>)ViewBag.PageUrlAccessor;
+}
+@Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+<table cellpadding="4" cellspacing="1" border="0" class="table table-striped table-hover">
+    <td width="60%">
+        标题
+    </td>
+    <td width="8%">
+        发帖人
+    </td>
+    <td width="8%">
+        回复/点击
+    </td>
+    <td width="24%">
+        发帖时间
+    </td>
+    @if (Model.Count() > 0)
+    {
+        <tbody>
+            @foreach (TopicView topic in this.Model)
+            {
+                <tr>
+                    <td>
+                        @Html.GetLock(@topic.IsLock)
+                        @Html.GetTopLevl(@topic.TopLevel)
+                        @Html.GetDigest(@topic.IsDigest)
+                        @Html.RouteLink(@topic.Title, "TopicPage", new { topicId = @topic.TopicId, boardId = @topic.BoardId }, new { target = "_blank" })
+                    </td>
+                    <td>
+                        @Html.RouteLink(@topic.PostUserName, "UserInfo", new { userId = @topic.PostUserId }, new { target = "_blank" })
+                    </td>
+                    <td>
+                        @topic.Child/@topic.Hits
+                    </td>
+                    <td>
+                        @Html.FormatDateTime(@topic.PostTime)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+@Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))

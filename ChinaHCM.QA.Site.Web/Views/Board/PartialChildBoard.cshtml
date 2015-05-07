@@ -1,0 +1,13 @@
+﻿@using ChinaHCM.QA.Site.Model
+@model IEnumerable<BoardView>
+@foreach (BoardView board in this.Model)
+{
+    <div class="ChildBoard col-md-3">
+        <div class="ChildBoardName">
+            @Html.RouteLink(@board.Name, "BoardPage", new { boardId = @board.BoardId })
+        </div>
+        <div class="ChildBoardInfo text-muted">
+            主题：@board.TopicNum，回帖：@board.PostNum
+        </div>
+    </div>
+}

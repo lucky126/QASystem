@@ -1,0 +1,94 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@using ChinaHCM.QA.Core.Model
+@model UserView
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "查看用户信息";
+}
+<div id="editBody">
+    @Html.DisplayTextFor(m => m.LoginName) 的基本信息：
+    <table cellpadding="4" cellspacing="1" border="0" class="edit">
+        <tr>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.RealName)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.RealName)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.NickName)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.NickName)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.Gender)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.Gender)
+            </td>
+        </tr>
+        <tr>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.Level)：
+            </td>
+            <td>
+               @GlobalConst.LevelName[(int)@Model.Level]
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.UserEmail)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.UserEmail)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.Grade)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.Grade)
+            </td>
+        </tr>
+        <tr>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.TopicCnt)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.TopicCnt)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.PostCnt)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.PostCnt)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.DelCnt)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.DelCnt)
+            </td>
+        </tr>
+        <tr>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.LoginCnt)：
+            </td>
+            <td>
+                @Html.DisplayTextFor(m => m.LoginCnt)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.AddTime)：
+            </td>
+            <td>
+                @Html.FormatAllDateTime(@Model.AddTime)
+            </td>
+            <td class="rightTd">
+                @Html.LabelFor(m => m.LastLoginTime)：
+            </td>
+            <td>
+                @Html.FormatAllDateTime(@Model.LastLoginTime)
+            </td>
+        </tr>
+    </table>
+</div>

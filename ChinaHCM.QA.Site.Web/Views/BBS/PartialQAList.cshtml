@@ -1,0 +1,115 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@using ChinaHCM.QA.Site.Web.Models
+@model TopicBBS
+@*问题*@
+<div id="Question" class="DiscussBorder">
+    <h3 class="topicCaptionText">
+        @Html.GetLock(@Model.Topic.IsLock)
+        @Html.GetTopLevl(@Model.Topic.TopLevel)
+        @Html.GetDigest(@Model.Topic.IsDigest)
+        @Model.Topic.Title</h3>
+    <p class="clearfix">
+        <span class="Questioner">提问者：@Html.RouteLink(@Model.TopicBBSs.PostUserName, "UserInfo", new { userId = @Model.TopicBBSs.PostUserId }, new { target = "_blank" })</span>
+        <span class="QuestionTime">发帖时间：
+            @Html.DateTimeLeaveString(@Model.TopicBBSs.PostTime)</span>
+    </p>
+    <p class="clearfix">
+        关键词：
+        @foreach (string str in ViewBag.Keywords)
+        { 
+            <span class="QuesKeywords">@str</span>
+        }
+    </p>
+    <p class="QuestionDesc">
+        @Model.TopicBBSs.Content
+    </p>
+    <p>
+    </p>
+    @{Html.RenderAction("GetQAReply", new { topicId = @Model.Topic.TopicId });}
+</div>
+@*正确答案*@
+@if (@Model.HasAnswer)
+{
+    <div id="Answer" class="DiscussBorder">
+        <span>
+            <img src="@Url.Content("~/images/Best.gif")" />
+            最佳回复</span>
+        <p class="QuestionDesc">
+            @Model.Answer.Content
+        </p>
+        <div>
+        </div>
+        <p class="clearfix">
+            <span class="ReBestAuthorSign">回复者：@Html.RouteLink(@Model.Answer.PostUserName, "UserInfo", new { userId = @Model.Answer.PostUserId }, new { target = "_blank" })
+                回复时间：@Html.FormatDateTime(@Model.Answer.PostTime)</span>
+        </p>
+    </div>
+}
+@*其他答案*@
+@if (Model.AnswerCnt > 0)
+{ 
+    <div id="OtherAnswerList" class="DiscussBorder">
+        <span class="ReOther">回 答 共
+            @Model.AnswerCnt
+            条</span>
+        @foreach (BBSView bbs in this.Model.OtherBBSs.OrderBy(b => b.PostTime))
+        {
+            bool bIsOwner = false;
+            if (Request.IsAuthenticated)
+            {
+                if (bbs.PostUserId == Convert.ToInt32(User.Identity.Name) && !Model.IsFinish)
+                {
+                    bIsOwner = true;
+                }
+            }
+
+            string replyClass = "OtherAnswer";
+            if (bIsOwner)
+            {
+                replyClass = "OwnerAnswer";
+            }
+            <div class="@replyClass">
+                <p class="clearfix">
+                    <span class="Questioner">回复者：@Html.RouteLink(@bbs.PostUserName, "UserInfo", new { userId = @bbs.PostUserId }, new { target = "_blank" })</span>
+                    <span class="QuestionTime">回复时间：@Html.FormatDateTime(@bbs.PostTime)</span>
+                </p>
+                <p class="QuestionDesc">
+                    @if (bbs.DisplayMode == ChinaHCM.QA.Core.Model.Mode.Private)
+                    { 
+                        @:***该内容已被管理员设置为隐藏***
+                    }
+                    else
+                    {@bbs.Content}
+                </p>
+                @if (bIsOwner)
+                {                    
+                    <script language="javascript">
+                         function LoadEdit() {
+                             try {
+                                 $.ajax({
+                                     type: "Get",
+                                     url: "@Url.Action("GetEditReply", "BBS", new { bbsId = @bbs.BBSId })",
+                                     async: false,
+                                     success: function (msg) {
+                                         $("#EditMyAnswer").empty();
+                                         $('#EditMyAnswer').append(msg);
+                                     }
+                                 });
+                             }
+                             catch (e) { }
+                         }       
+                         function Close()
+                         {
+                            $("#EditMyAnswer").empty();
+                            $('#EditMyAnswer').append(" <input type=\"submit\" id=\"appendAnswer\" value=\"完善我的回答\" onclick=\"LoadEdit()\" />");
+                         }  
+                    </script>
+                    <div id="EditMyAnswer">
+                        <input type="submit" id="appendAnswer" value="完善我的回答" onclick="LoadEdit()" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}

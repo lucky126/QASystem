@@ -1,0 +1,54 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@using ChinaHCM.QA.Site.Web.Models
+@model TopicBBS
+@{
+    PagingInfo pagingInfo = new PagingInfo
+    {
+        PageIndex = (int)ViewBag.PageIndex,
+        RecordCount = (int)ViewBag.RecordCount
+    };
+    Func<int, UrlHelper, string> pageUrlAccessor = (Func<int, UrlHelper, string>)ViewBag.PageUrlAccessor;
+}
+@if (Model.BBSs.Count() > 0)
+{
+    @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+    <table cellpadding="4" cellspacing="1" border="0" class="Discuss">
+        <thead>
+            <td colspan="2">
+                <span class="DiscussTopicTitle">
+                    @Html.GetLock(@Model.Topic.IsLock)
+                    @Html.GetTopLevl(@Model.Topic.TopLevel)
+                    @Html.GetDigest(@Model.Topic.IsDigest)
+                    @Model.Topic.Title</span>
+            </td>
+        </thead>
+        <tbody>
+            @{
+    int iCnt = 1;
+            }
+            @foreach (BBSView bbs in this.Model.BBSs.OrderBy(b => b.PostTime))
+            { 
+                <tr>
+                    <td class="topicAuthor">
+                        <span class="DiscussListAuthor">@Html.RouteLink(@bbs.PostUserName, "UserInfo", new { userId = @bbs.PostUserId }, new { target = "_blank" })</span>
+                    </td>
+                    <td>
+                        <div class="clearfix">
+                            <span class="TopCnt">@Html.GetDiscussCount(iCnt)</span>
+                            <br />
+                            <div class="DiscussContent">
+                                @bbs.Content
+                            </div>
+                            <div class="BottomTime">@Html.FormatDateTime(@bbs.PostTime)</div>
+                        </div>
+                    </td>
+                </tr>
+                iCnt++;
+            }
+        </tbody>
+    </table>   
+    @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+}
+@{Html.RenderAction("GetQAReply", new { topicId = @Model.Topic.TopicId });}

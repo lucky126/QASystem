@@ -1,0 +1,65 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@using ChinaHCM.QA.Site.Web.Models
+@model TopicBBS
+@{
+    PagingInfo pagingInfo = new PagingInfo
+    {
+        PageIndex = (int)ViewBag.PageIndex,
+        RecordCount = (int)ViewBag.RecordCount
+    };
+    Func<int, UrlHelper, string> pageUrlAccessor = (Func<int, UrlHelper, string>)ViewBag.PageUrlAccessor;
+}
+@*主贴管理*@
+@{Html.RenderAction("TopicManager", "Topic", new { topicId = @Model.Topic.TopicId });}
+@if (Model.BBSs.Count() > 0)
+{
+    @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+    <table cellpadding="4" cellspacing="1" border="0" class="Discuss">
+        <thead>
+            <td colspan="2">
+                <span id="TopicTitle" class="DiscussTopicTitle">
+                    @Html.GetLock(@Model.Topic.IsLock)
+                    @Html.GetTopLevl(@Model.Topic.TopLevel)
+                    @Html.GetDigest(@Model.Topic.IsDigest)
+                    @Model.Topic.Title</span>
+            </td>
+        </thead>
+        <tbody>
+            @{
+    int iCnt = 1;
+            }
+            @foreach (BBSView bbs in this.Model.BBSs.OrderBy(b => b.PostTime))
+            { 
+                <tr>
+                    <td class="topicAuthor">
+                        <span class="DiscussListAuthor">@Html.ActionLink(@bbs.PostUserName, "GetUserInfo","Account", new { userId = @bbs.PostUserId }, new { target = "_blank" })</span>
+                    </td>
+                    <td>
+                        <div class="clearfix">
+                            <span class="TopCnt">@Html.GetDiscussCount(iCnt)</span>
+                            <br />
+                            <div class="DiscussContent">
+                                @bbs.Content
+                            </div>
+                            <div>
+                                @if (iCnt > 1)
+                                {
+                                    Html.RenderAction("BBSManager", "BBS", new { bbsId = @bbs.BBSId });
+                                }
+                                <div class="BottomTime">@Html.FormatAllDateTime(@bbs.PostTime)@Html.GetIP(@bbs.PostIp)</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                                iCnt++;
+            }
+        </tbody>
+    </table>   
+    @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+}
+<div class="clearfix">
+</div>
+@*回复*@
+@{Html.RenderAction("GetQAReply", new { topicId = @Model.Topic.TopicId });}

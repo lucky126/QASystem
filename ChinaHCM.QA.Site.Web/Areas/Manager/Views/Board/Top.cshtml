@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>互动交流MVC版管理系统</title>
+    <link href="@Url.Content("~/Content/Manager.css")" rel="stylesheet" type="text/css" />
+</head>
+<body class="topframe">
+    <div id="topframe">
+        <span class="logo">互动交流MVC版管理系统</span>
+        <div style="width: 300px; height: 100px; float: right; margin-right: 50px;">
+            <div class="navigation">
+                <ul>
+                    <li><a href="@Url.Action("Main", "Board")" target="Main">系统首页</a></li>
+                    <li><a href="@Url.Action("ChangePassword","Account")" target="Main">修改密码</a></li>
+                    <li><a href="@Url.Action("Logout","Account")" target="_top">退出登录</a></li>
+                </ul>
+            </div>
+            <div class="admin">
+                @{
+                    var today = DateTime.Now;
+                }
+                管理员，您好，今天是@{@today.Year;}
+                年@{@today.Month;}
+                月@{@today.Day;}
+                日</div>
+        </div>
+    </div>
+</body>
+</html>

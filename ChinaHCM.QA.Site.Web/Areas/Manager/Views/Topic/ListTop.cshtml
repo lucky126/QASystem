@@ -1,0 +1,19 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@model TopLevelModel
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("SetTop",new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnSuccess = "SetTopSuccess",    
+}))
+{ 
+    <div id="ListTop">
+    数字越高，置顶越靠前。<br />
+    若已设置过该等级，重复选择该等级，将覆盖原先设置。即同一等级只能存在一个帖子。<p></p>
+        置顶等级：@Html.DropDownList("TopLevel")
+        @Html.HiddenFor(m=>m.TopicId)
+        <input type="submit" value="确定" />
+    </div>
+}

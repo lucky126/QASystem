@@ -1,0 +1,24 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@model Error
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <title>互动交流MVC版管理系统</title>
+    <link href="@Url.Content("~/Content/Manager.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div>
+        <dl>
+            <dt>@Html.DisplayFor(model => model.Title)</dt>
+            <dd>
+                <strong>详细：</strong>@Html.Raw(Model.Details)</dd>
+            <dd>
+                <strong>原因：</strong>@Html.Raw(Model.Cause)</dd>
+            <dd>
+                <strong>解决方案：</strong>@Html.Raw(Model.Solution)</dd>
+        </dl>
+    </div>
+</body>
+</html>

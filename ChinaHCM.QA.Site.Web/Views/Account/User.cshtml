@@ -1,0 +1,18 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@model UserView
+@{
+    ViewBag.Title = "互动交流系统-用户信息：" + @Model.NickName;
+}
+<div>
+    <h3>
+        用户信息</h3>
+    <ul>
+        <li>@Html.LabelFor(m => m.NickName)：@Html.DisplayTextFor(m => m.NickName)</li>
+        <li>@Html.LabelFor(m => m.UserEmail)：@Html.DisplayTextFor(m => m.UserEmail)</li>
+        <li>@Html.LabelFor(m => m.Grade)：@Html.DisplayTextFor(m => m.Grade)</li>
+        <li>等级：@Html.GetGradeDesc(@Model.Grade)</li>
+        <li>@Html.LabelFor(m => m.TopicCnt)：@Html.DisplayTextFor(m => m.TopicCnt)</li>
+        <li>@Html.LabelFor(m => m.PostCnt)：@Html.DisplayTextFor(m => m.PostCnt)</li>
+    </ul>
+</div>

@@ -1,0 +1,18 @@
+﻿@using ChinaHCM.QA.Site.Model;
+@model BasicSearchModel
+@using (Html.BeginForm("BasicSearchResult", "Topic", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <div class="col-xs-10 col-md-10">
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.SearchContext, new { @class = "form-control input-sm", placeholder = "请输入要查询的内容" })
+            @Html.HiddenFor(m => m.BoardId)
+            <span class="input-group-btn">
+                <input type="submit" value=" 搜 索 " class="btn btn-primary btn-sm" />
+            </span>
+        </div>
+    </div>
+    <div class="col-xs-2  col-md-1">
+        @Html.ActionLink("高级搜索", "SearchInfo", "Topic", new { boardId = @Model.BoardId }, new { @class = "btn btn-default btn-sm active" })
+    </div>
+
+}

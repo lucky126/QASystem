@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    
+</head>
+<body>
+    <header class="navbar navbar-default navbar-fixed-top" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">互动交流系统--MVC演示版</a>
+            </div>
+            <nav class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                @if (Request.IsAuthenticated)
+                {
+                    <p class="navbar-text">@Html.Action("GetNickName", "Account", new { userId = @User.Identity.Name })</p>
+
+                }
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.RouteLink("首页", "Home", null, new { @class = "iconText,ui-btn-active" })
+                    </li>
+                    @if (this.Request.IsAuthenticated)
+                    {
+                        <li><a href="" class="iconText,ui-btn-active">控制面板</a> </li>
+                        <li>
+                            @Html.RouteLink("注销", "Logout", null, new { @class = "iconText,ui-btn-active" })
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="active">
+                            @Html.RouteLink("注册", "Register", new { ReturnUrl = Request.Url }, new { @class = "iconText,ui-btn-active" })
+                        </li>
+                        <li><a href="javascript:void(0)" onclick="show('tologin')">登录</a> </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container" id="mainPage">
+        <div class="body clearfix">
+            @RenderBody()
+        </div>
+        @{Html.RenderPartial("PartialFooter");}
+    </div>
+
+</body>
+</html>

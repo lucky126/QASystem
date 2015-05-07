@@ -1,0 +1,26 @@
+﻿@model NavModel
+@{
+    Layout = null;
+}
+<ul class="breadcrumb col-lg-8">
+    您的位置：
+    <li>
+        @Html.RouteLink("首页", "Home")
+    </li>
+    @foreach (BoardView board in Model.Boards)
+    {
+        <li>
+            @Html.RouteLink(board.Name, "BoardPage", new { boardId = @board.BoardId })
+        </li>
+    }
+    @if (Model.Topic != null)
+    {
+        <li>
+            @Html.RouteLink(Model.Topic.Title, "TopicPage", new { topicId = @Model.Topic.TopicId, boardId = @Model.Topic.BoardId })
+        </li>
+    }
+    @if (!string.IsNullOrEmpty(Model.LastNav))
+    {
+        <li class="active">@Model.LastNav</li>
+    }
+</ul>

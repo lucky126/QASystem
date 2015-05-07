@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- Infrastructure（基础设施层）", "1- Infrastructure（基础设施层）", "{22ADF11E-0ED3-4EB4-B5BB-678C3D84FC88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2- Core (业务核心层)", "2- Core (业务核心层)", "{04AA93D4-7AEC-4C7C-B5F7-A1D3574F7F38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4- Presentation (展现层)", "4- Presentation (展现层)", "{9C2733EF-9DA6-4293-A04E-CA83CD387697}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D4B9187-A528-4D1B-8063-261034DA905F}"
+	ProjectSection(SolutionItems) = preProject
+		ChinaHCM.Test.QA.vsmdi = ChinaHCM.Test.QA.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3- Application (站点应用层)", "3- Application (站点应用层)", "{A6983295-F173-493B-AE39-02F55482D5A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Core.Model", "ChinaHCM.QA.Core.Model\ChinaHCM.QA.Core.Model.csproj", "{31559A01-B77C-4E71-8A38-62D009A7A064}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Site", "ChinaHCM.QA.Site\ChinaHCM.QA.Site.csproj", "{24687F82-CE62-4DF9-8909-989B06169784}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Site.Model", "ChinaHCM.QA.Site.Model\ChinaHCM.QA.Site.Model.csproj", "{6C1964F3-ADB7-47B3-97D1-18EE793B2D27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Component.Data", "ChinaHCM.QA.Component.Data\ChinaHCM.QA.Component.Data.csproj", "{6B3DDE24-7271-4D01-A908-9D14A9F5AD96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Component.Tools", "ChinaHCM.QA.Component.Tools\ChinaHCM.QA.Component.Tools.csproj", "{8D3309AB-F244-4EF2-B4D9-AAA6299545EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Core.Data", "ChinaHCM.QA.Core.Data\ChinaHCM.QA.Core.Data.csproj", "{67940B9D-1D33-4D52-9CF2-274DC465EE97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Core", "ChinaHCM.QA.Core\ChinaHCM.QA.Core.csproj", "{299F7EEA-F932-4281-8A95-C42D4820EB9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.Site.Web", "ChinaHCM.QA.Site.Web\ChinaHCM.QA.Site.Web.csproj", "{53EEA505-B51C-4A19-9AAF-10218F84CAC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaHCM.QA.UnitTest", "ChinaHCM.QA.UnitTest\ChinaHCM.QA.UnitTest.csproj", "{40DD12F4-A6E5-4266-9453-368AE4CB9453}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31559A01-B77C-4E71-8A38-62D009A7A064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31559A01-B77C-4E71-8A38-62D009A7A064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31559A01-B77C-4E71-8A38-62D009A7A064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31559A01-B77C-4E71-8A38-62D009A7A064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24687F82-CE62-4DF9-8909-989B06169784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24687F82-CE62-4DF9-8909-989B06169784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24687F82-CE62-4DF9-8909-989B06169784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24687F82-CE62-4DF9-8909-989B06169784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C1964F3-ADB7-47B3-97D1-18EE793B2D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C1964F3-ADB7-47B3-97D1-18EE793B2D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C1964F3-ADB7-47B3-97D1-18EE793B2D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C1964F3-ADB7-47B3-97D1-18EE793B2D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3DDE24-7271-4D01-A908-9D14A9F5AD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3DDE24-7271-4D01-A908-9D14A9F5AD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3DDE24-7271-4D01-A908-9D14A9F5AD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3DDE24-7271-4D01-A908-9D14A9F5AD96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D3309AB-F244-4EF2-B4D9-AAA6299545EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D3309AB-F244-4EF2-B4D9-AAA6299545EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D3309AB-F244-4EF2-B4D9-AAA6299545EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D3309AB-F244-4EF2-B4D9-AAA6299545EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67940B9D-1D33-4D52-9CF2-274DC465EE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67940B9D-1D33-4D52-9CF2-274DC465EE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67940B9D-1D33-4D52-9CF2-274DC465EE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67940B9D-1D33-4D52-9CF2-274DC465EE97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{299F7EEA-F932-4281-8A95-C42D4820EB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{299F7EEA-F932-4281-8A95-C42D4820EB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{299F7EEA-F932-4281-8A95-C42D4820EB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{299F7EEA-F932-4281-8A95-C42D4820EB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53EEA505-B51C-4A19-9AAF-10218F84CAC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53EEA505-B51C-4A19-9AAF-10218F84CAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53EEA505-B51C-4A19-9AAF-10218F84CAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53EEA505-B51C-4A19-9AAF-10218F84CAC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40DD12F4-A6E5-4266-9453-368AE4CB9453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40DD12F4-A6E5-4266-9453-368AE4CB9453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40DD12F4-A6E5-4266-9453-368AE4CB9453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40DD12F4-A6E5-4266-9453-368AE4CB9453}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6B3DDE24-7271-4D01-A908-9D14A9F5AD96} = {22ADF11E-0ED3-4EB4-B5BB-678C3D84FC88}
+		{8D3309AB-F244-4EF2-B4D9-AAA6299545EE} = {22ADF11E-0ED3-4EB4-B5BB-678C3D84FC88}
+		{31559A01-B77C-4E71-8A38-62D009A7A064} = {04AA93D4-7AEC-4C7C-B5F7-A1D3574F7F38}
+		{67940B9D-1D33-4D52-9CF2-274DC465EE97} = {04AA93D4-7AEC-4C7C-B5F7-A1D3574F7F38}
+		{299F7EEA-F932-4281-8A95-C42D4820EB9D} = {04AA93D4-7AEC-4C7C-B5F7-A1D3574F7F38}
+		{2D4B9187-A528-4D1B-8063-261034DA905F} = {9C2733EF-9DA6-4293-A04E-CA83CD387697}
+		{53EEA505-B51C-4A19-9AAF-10218F84CAC5} = {9C2733EF-9DA6-4293-A04E-CA83CD387697}
+		{40DD12F4-A6E5-4266-9453-368AE4CB9453} = {9C2733EF-9DA6-4293-A04E-CA83CD387697}
+		{24687F82-CE62-4DF9-8909-989B06169784} = {A6983295-F173-493B-AE39-02F55482D5A4}
+		{6C1964F3-ADB7-47B3-97D1-18EE793B2D27} = {A6983295-F173-493B-AE39-02F55482D5A4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.ExceptionHandling.5.0.505.0\lib\NET35;packages\EntLibContrib.ExceptionHandling.5.0.505.0\lib\NET35
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ChinaHCM.Test.QA.vsmdi
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,8 @@
+﻿@using ChinaHCM.QA.Site.Model
+@model IEnumerable<UserView>
+
+    @foreach (UserView user in Model)
+    { 
+        <a href="javascript:void(0);" title="@user.NickName" value="@user.UserId"><span>@user.NickName</span> <em></em></a>
+    }
+

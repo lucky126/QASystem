@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{24687F82-CE62-4DF9-8909-989B06169784}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChinaHCM.QA.Site</RootNamespace>
+    <AssemblyName>ChinaHCM.QA.Site</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helper\Ioc\MefDependencySolver.cs" />
+    <Compile Include="IAccountSiteContract.cs" />
+    <Compile Include="IBBSSiteContract.cs" />
+    <Compile Include="IBoardSiteContract.cs" />
+    <Compile Include="Impl\AccountSiteService.cs" />
+    <Compile Include="Impl\BBSSiteService.cs" />
+    <Compile Include="Impl\BoardSiteService.cs" />
+    <Compile Include="Impl\TopicSiteService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITopicSiteContract.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChinaHCM.QA.Component.Data\ChinaHCM.QA.Component.Data.csproj">
+      <Project>{6B3DDE24-7271-4D01-A908-9D14A9F5AD96}</Project>
+      <Name>ChinaHCM.QA.Component.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChinaHCM.QA.Component.Tools\ChinaHCM.QA.Component.Tools.csproj">
+      <Project>{8D3309AB-F244-4EF2-B4D9-AAA6299545EE}</Project>
+      <Name>ChinaHCM.QA.Component.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChinaHCM.QA.Core.Data\ChinaHCM.QA.Core.Data.csproj">
+      <Project>{67940B9D-1D33-4D52-9CF2-274DC465EE97}</Project>
+      <Name>ChinaHCM.QA.Core.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChinaHCM.QA.Core.Model\ChinaHCM.QA.Core.Model.csproj">
+      <Project>{31559A01-B77C-4E71-8A38-62D009A7A064}</Project>
+      <Name>ChinaHCM.QA.Core.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChinaHCM.QA.Core\ChinaHCM.QA.Core.csproj">
+      <Project>{299F7EEA-F932-4281-8A95-C42D4820EB9D}</Project>
+      <Name>ChinaHCM.QA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChinaHCM.QA.Site.Model\ChinaHCM.QA.Site.Model.csproj">
+      <Project>{6C1964F3-ADB7-47B3-97D1-18EE793B2D27}</Project>
+      <Name>ChinaHCM.QA.Site.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

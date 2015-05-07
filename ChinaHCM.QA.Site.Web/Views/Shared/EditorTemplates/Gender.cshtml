@@ -1,0 +1,10 @@
+﻿@using ChinaHCM.QA.Core.Model
+@model Gender
+           
+@foreach (int value in Enum.GetValues(typeof(Gender)))
+{
+    <span>
+    @Html.RadioButton(Enum.GetName(Model.GetType(), value), value, value == (int)Model, new { @Name = "Gender" }) 
+    @GlobalConst.GenderName[value]
+    </span>
+}

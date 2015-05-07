@@ -1,0 +1,15 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@model Error
+
+@{
+    ViewBag.Title = " 发生错误";
+}
+
+<div>
+    <dl>
+        <dt>@Html.DisplayFor(model => model.Title)</dt>
+        <dd><strong>详细：</strong>@Html.Raw(Model.Details)</dd>
+        <dd><strong>原因：</strong>@Html.Raw(Model.Cause)</dd>
+        <dd><strong>解决方案：</strong>@Html.Raw(Model.Solution)</dd>
+    </dl>
+</div>

@@ -1,0 +1,78 @@
+﻿@using ChinaHCM.QA.Site.Model
+@model LoginModel
+@{
+    Layout = null;
+    Html.EnableClientValidation();
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#loading").hide()
+    });
+    function OnSuccess(data) {
+        if (data.Flag == "0")
+            location.href = data.ReturlUrl;
+        else {
+            $("#showMes").empty();
+            $("#showMes").append(data.ErrMsg);
+        }
+    }
+</script>
+@using (Ajax.BeginForm("Login", "Account", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    LoadingElementId = "loading",
+    OnSuccess = "OnSuccess"
+}, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            用户登录<span style="float: right;">
+                <a onclick="hide('tologin')">
+                    <img src="@Url.Content("~/Images/close.gif")" id="closeBtn" alt="关闭" title="关闭" />
+                </a>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">@Html.ValidationSummary(true)</div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-7">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "用户名" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-7">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "密码" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsRememberLogin, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-7">
+                    @Html.EditorFor(m => m.IsRememberLogin, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.IsRememberLogin)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    <input type="submit" id="btnLogin" value=" 登 录 " class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

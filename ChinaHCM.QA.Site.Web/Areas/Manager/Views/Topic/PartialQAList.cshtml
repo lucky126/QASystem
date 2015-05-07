@@ -1,0 +1,120 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@model IEnumerable<TopicView>
+@{
+    PagingInfo pagingInfo = new PagingInfo
+    {
+        PageIndex = (int)ViewBag.PageIndex,
+        RecordCount = (int)ViewBag.RecordCount
+    };
+    Func<int, UrlHelper, string> pageUrlAccessor = (Func<int, UrlHelper, string>)ViewBag.PageUrlAccessor;
+}
+@Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+<table cellpadding="4" cellspacing="1" border="0" class="table table-striped table-hover" id="QAList">
+    <thead>
+    <td width="5%">
+        删除
+    </td>
+    <td width="51%">
+        标题
+    </td>
+    <td width="8%">
+        发起人
+    </td>
+    <td width="10%">
+        回复/点击
+    </td>
+    <td width="6%">
+        状态
+    </td>
+    <td width="20%">
+        发起时间
+    </td>
+    </thead>
+    @if (Model.Count() > 0)
+    {
+        using (Ajax.BeginForm("Delete", "Topic", new AjaxOptions()
+        {
+            HttpMethod = "Post",
+            OnBegin = "CheckDel",
+            OnSuccess = "DelTopicSuccess"
+        }, new { @class = "form-horizontal", role = "form" }))
+        {
+            <tbody>
+                @foreach (TopicView topic in this.Model)
+                {
+                    <tr onmouseout="this.style.backgroundColor='#FFFFFF'" onmousemove="this.style.backgroundColor='#F7FAF8'">
+                        <td class="textCenter">
+                            @Html.CheckBox("del", new { value = @topic.TopicId })
+                        </td>
+                        <td>
+                            @Html.GetLock(@topic.IsLock)
+                            @Html.GetTopLevl(@topic.TopLevel)
+                            @Html.GetDigest(@topic.IsDigest)
+                            @Html.ActionLink(@topic.Title, "GetTopic", "Topic", new { topicId = @topic.TopicId }, null)
+                        </td>
+                        <td class="textCenter">
+                            @topic.PostUserName
+                    </td>
+                    <td class="textCenter">
+                        @topic.Child/@topic.Hits
+                    </td>
+                    <td class="textCenter">
+                        @Html.TopicFinish(@topic.IsFinish)
+                </td>
+                <td class="textCenter">
+                    @Html.DateTimeLeaveString(@topic.PostTime)
+            </td>
+        </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" style="padding-left: 20px;">
+                        @Html.CheckBox("AllCheck", new { onclick = "AllSelect()" }) 全选
+                        <input type="submit" value=" 删 除 " class="btn btn-danger" />
+                    </td>
+                </tr>
+            </tfoot>
+        }
+    }
+</table>
+@Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+<script type="text/javascript">
+    $(function () {
+        $('input[id="del"]').each(function () {
+            $(this).attr('checked', false)
+        });
+        $('input[id="del"]').bind("click", function () {
+            if ($(this).attr('checked') == false) {
+                $('#AllCheck').attr('checked', false);
+            }
+        });
+    });
+    function AllSelect() {
+        $('input[id="del"]').each(function () {
+            $(this).attr('checked', $('#AllCheck').attr('checked'))
+        });
+    }
+    function CheckDel() {
+        var hasSelect = false;
+        $('input[id="del"]').each(function () {
+            if ($(this).attr('checked'))
+                hasSelect = true;
+        });
+
+        if (!hasSelect) {
+            alert("请选择需要删除的帖子");
+            return false;
+        }
+        else {
+            return confirm("你确认要删除所选帖子么？");
+        }
+    }
+    function DelTopicSuccess(data) {
+        if (data.Flag == "0") {
+            location.reload();
+        }
+    }
+</script>

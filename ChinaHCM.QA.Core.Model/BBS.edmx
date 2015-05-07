@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ChinaHCM.QA.Core.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="e_BBS">
+          <Key>
+            <PropertyRef Name="BBSId" />
+          </Key>
+          <Property Name="BBSId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TopicId" Type="int" Nullable="false" />
+          <Property Name="BoardId" Type="int" Nullable="false" />
+          <Property Name="Content" Type="text" Nullable="false" />
+          <Property Name="PostUserId" Type="int" Nullable="false" />
+          <Property Name="PostUserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PostTime" Type="datetime" Nullable="false" />
+          <Property Name="PostIp" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsTopic" Type="int" Nullable="false" />
+          <Property Name="IsAnswer" Type="int" Nullable="false" />
+          <Property Name="DisplayMode" Type="int" Nullable="false" />
+          <Property Name="AnswerMode" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="e_Board">
+          <Key>
+            <PropertyRef Name="BoardId" />
+          </Key>
+          <Property Name="BoardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Depth" Type="int" Nullable="false" />
+          <Property Name="ParentID" Type="int" Nullable="false" />
+          <Property Name="RootID" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="IsLeaf" Type="int" Nullable="false" />
+          <Property Name="IsPublic" Type="int" Nullable="false" />
+          <Property Name="BoardType" Type="int" Nullable="false" />
+          <Property Name="Master" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="TopicNum" Type="int" Nullable="false" />
+          <Property Name="PostNum" Type="int" Nullable="false" />
+          <Property Name="ParentStr" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="e_Topic">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoardId" Type="int" Nullable="false" />
+          <Property Name="TopicType" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="PostUserId" Type="int" Nullable="false" />
+          <Property Name="PostUserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PostTime" Type="datetime" Nullable="false" />
+          <Property Name="PostIp" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LastPostUserId" Type="int" />
+          <Property Name="LastPostUserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastPostTime" Type="datetime" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsFinish" Type="int" Nullable="false" />
+          <Property Name="IsLock" Type="int" Nullable="false" />
+          <Property Name="IsDigest" Type="int" Nullable="false" />
+          <Property Name="TopLevel" Type="int" Nullable="false" />
+          <Property Name="Child" Type="int" Nullable="false" />
+          <Property Name="Hits" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="e_Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NickName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RealName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="255" />
+          <Property Name="UserSign" Type="ntext" />
+          <Property Name="UserQuesion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserAnswer" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="AddIp" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="TopicCnt" Type="int" Nullable="false" />
+          <Property Name="PostCnt" Type="int" Nullable="false" />
+          <Property Name="DelCnt" Type="int" Nullable="false" />
+          <Property Name="LoginCnt" Type="int" Nullable="false" />
+          <Property Name="Grade" Type="int" Nullable="false" />
+          <Property Name="LastLoginTime" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BBS_Topic">
+          <End Role="e_Topic" Type="Self.e_Topic" Multiplicity="1" />
+          <End Role="e_BBS" Type="Self.e_BBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Topic">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="e_BBS">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BBS_User">
+          <End Role="e_Users" Type="Self.e_Users" Multiplicity="1" />
+          <End Role="e_BBS" Type="Self.e_BBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="e_BBS">
+              <PropertyRef Name="PostUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Product">
+          <End Role="e_Board" Type="Self.e_Board" Multiplicity="1" />
+          <End Role="e_Topic" Type="Self.e_Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Board">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="e_Topic">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_User">
+          <End Role="e_Users" Type="Self.e_Users" Multiplicity="1" />
+          <End Role="e_Topic" Type="Self.e_Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="e_Topic">
+              <PropertyRef Name="PostUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChinaHCMQACoreModelStoreContainer">
+          <EntitySet Name="e_BBS" EntityType="Self.e_BBS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="e_Board" EntityType="Self.e_Board" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="e_Topic" EntityType="Self.e_Topic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="e_Users" EntityType="Self.e_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BBS_Topic" Association="Self.FK_BBS_Topic">
+            <End Role="e_Topic" EntitySet="e_Topic" />
+            <End Role="e_BBS" EntitySet="e_BBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BBS_User" Association="Self.FK_BBS_User">
+            <End Role="e_Users" EntitySet="e_Users" />
+            <End Role="e_BBS" EntitySet="e_BBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Product" Association="Self.FK_Topic_Product">
+            <End Role="e_Board" EntitySet="e_Board" />
+            <End Role="e_Topic" EntitySet="e_Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_User" Association="Self.FK_Topic_User">
+            <End Role="e_Users" EntitySet="e_Users" />
+            <End Role="e_Topic" EntitySet="e_Topic" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChinaHCM.QA.Core.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="e_BBS">
+          <Key>
+            <PropertyRef Name="BBSId" />
+          </Key>
+          <Property Name="BBSId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TopicId" Type="Int32" Nullable="false" />
+          <Property Name="BoardId" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostUserId" Type="Int32" Nullable="false" />
+          <Property Name="PostUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PostIp" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsTopic" Type="Int32" Nullable="false" />
+          <Property Name="IsAnswer" Type="Int32" Nullable="false" />
+          <Property Name="DisplayMode" Type="Int32" Nullable="false" />
+          <Property Name="AnswerMode" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="e_Topic" Relationship="Self.FK_BBS_Topic" FromRole="e_BBS" ToRole="e_Topic" />
+          <NavigationProperty Name="e_Users" Relationship="Self.FK_BBS_User" FromRole="e_BBS" ToRole="e_Users" />
+        </EntityType>
+        <EntityType Name="e_Board">
+          <Key>
+            <PropertyRef Name="BoardId" />
+          </Key>
+          <Property Name="BoardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Depth" Type="Int32" Nullable="false" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="RootID" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="IsLeaf" Type="Int32" Nullable="false" />
+          <Property Name="IsPublic" Type="Int32" Nullable="false" />
+          <Property Name="BoardType" Type="Int32" Nullable="false" />
+          <Property Name="Master" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TopicNum" Type="Int32" Nullable="false" />
+          <Property Name="PostNum" Type="Int32" Nullable="false" />
+          <Property Name="ParentStr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="e_Topic" Relationship="Self.FK_Topic_Product" FromRole="e_Board" ToRole="e_Topic" />
+        </EntityType>
+        <EntityType Name="e_Topic">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoardId" Type="Int32" Nullable="false" />
+          <Property Name="TopicType" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Keywords" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostUserId" Type="Int32" Nullable="false" />
+          <Property Name="PostUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PostIp" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastPostUserId" Type="Int32" />
+          <Property Name="LastPostUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastPostTime" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsFinish" Type="Int32" Nullable="false" />
+          <Property Name="IsLock" Type="Int32" Nullable="false" />
+          <Property Name="IsDigest" Type="Int32" Nullable="false" />
+          <Property Name="TopLevel" Type="Int32" Nullable="false" />
+          <Property Name="Child" Type="Int32" Nullable="false" />
+          <Property Name="Hits" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="e_BBS" Relationship="Self.FK_BBS_Topic" FromRole="e_Topic" ToRole="e_BBS" />
+          <NavigationProperty Name="e_Board" Relationship="Self.FK_Topic_Product" FromRole="e_Topic" ToRole="e_Board" />
+          <NavigationProperty Name="e_Users" Relationship="Self.FK_Topic_User" FromRole="e_Topic" ToRole="e_Users" />
+        </EntityType>
+        <EntityType Name="e_Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="LoginName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UserSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserQuesion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserAnswer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AddIp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TopicCnt" Type="Int32" Nullable="false" />
+          <Property Name="PostCnt" Type="Int32" Nullable="false" />
+          <Property Name="DelCnt" Type="Int32" Nullable="false" />
+          <Property Name="LoginCnt" Type="Int32" Nullable="false" />
+          <Property Name="Grade" Type="Int32" Nullable="false" />
+          <Property Name="LastLoginTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="e_BBS" Relationship="Self.FK_BBS_User" FromRole="e_Users" ToRole="e_BBS" />
+          <NavigationProperty Name="e_Topic" Relationship="Self.FK_Topic_User" FromRole="e_Users" ToRole="e_Topic" />
+        </EntityType>
+        <Association Name="FK_BBS_Topic">
+          <End Role="e_Topic" Type="Self.e_Topic" Multiplicity="1" />
+          <End Role="e_BBS" Type="Self.e_BBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Topic">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="e_BBS">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BBS_User">
+          <End Role="e_Users" Type="Self.e_Users" Multiplicity="1" />
+          <End Role="e_BBS" Type="Self.e_BBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="e_BBS">
+              <PropertyRef Name="PostUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Product">
+          <End Role="e_Board" Type="Self.e_Board" Multiplicity="1" />
+          <End Role="e_Topic" Type="Self.e_Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Board">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="e_Topic">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_User">
+          <End Role="e_Users" Type="Self.e_Users" Multiplicity="1" />
+          <End Role="e_Topic" Type="Self.e_Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="e_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="e_Topic">
+              <PropertyRef Name="PostUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BBSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="e_BBS" EntityType="Self.e_BBS" />
+          <EntitySet Name="e_Board" EntityType="Self.e_Board" />
+          <EntitySet Name="e_Topic" EntityType="Self.e_Topic" />
+          <EntitySet Name="e_Users" EntityType="Self.e_Users" />
+          <AssociationSet Name="FK_BBS_Topic" Association="Self.FK_BBS_Topic">
+            <End Role="e_Topic" EntitySet="e_Topic" />
+            <End Role="e_BBS" EntitySet="e_BBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BBS_User" Association="Self.FK_BBS_User">
+            <End Role="e_Users" EntitySet="e_Users" />
+            <End Role="e_BBS" EntitySet="e_BBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Product" Association="Self.FK_Topic_Product">
+            <End Role="e_Board" EntitySet="e_Board" />
+            <End Role="e_Topic" EntitySet="e_Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_User" Association="Self.FK_Topic_User">
+            <End Role="e_Users" EntitySet="e_Users" />
+            <End Role="e_Topic" EntitySet="e_Topic" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChinaHCMQACoreModelStoreContainer" CdmEntityContainer="BBSEntities">
+          <EntitySetMapping Name="e_BBS">
+            <EntityTypeMapping TypeName="ChinaHCM.QA.Core.Model.e_BBS">
+              <MappingFragment StoreEntitySet="e_BBS">
+                <ScalarProperty Name="BBSId" ColumnName="BBSId" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="PostUserId" ColumnName="PostUserId" />
+                <ScalarProperty Name="PostUserName" ColumnName="PostUserName" />
+                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+                <ScalarProperty Name="PostIp" ColumnName="PostIp" />
+                <ScalarProperty Name="IsTopic" ColumnName="IsTopic" />
+                <ScalarProperty Name="IsAnswer" ColumnName="IsAnswer" />
+                <ScalarProperty Name="DisplayMode" ColumnName="DisplayMode" />
+                <ScalarProperty Name="AnswerMode" ColumnName="AnswerMode" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="e_Board">
+            <EntityTypeMapping TypeName="ChinaHCM.QA.Core.Model.e_Board">
+              <MappingFragment StoreEntitySet="e_Board">
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Depth" ColumnName="Depth" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="RootID" ColumnName="RootID" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="IsLeaf" ColumnName="IsLeaf" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="BoardType" ColumnName="BoardType" />
+                <ScalarProperty Name="Master" ColumnName="Master" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="TopicNum" ColumnName="TopicNum" />
+                <ScalarProperty Name="PostNum" ColumnName="PostNum" />
+                <ScalarProperty Name="ParentStr" ColumnName="ParentStr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="e_Topic">
+            <EntityTypeMapping TypeName="ChinaHCM.QA.Core.Model.e_Topic">
+              <MappingFragment StoreEntitySet="e_Topic">
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="TopicType" ColumnName="TopicType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="PostUserId" ColumnName="PostUserId" />
+                <ScalarProperty Name="PostUserName" ColumnName="PostUserName" />
+                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+                <ScalarProperty Name="PostIp" ColumnName="PostIp" />
+                <ScalarProperty Name="LastPostUserId" ColumnName="LastPostUserId" />
+                <ScalarProperty Name="LastPostUserName" ColumnName="LastPostUserName" />
+                <ScalarProperty Name="LastPostTime" ColumnName="LastPostTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsFinish" ColumnName="IsFinish" />
+                <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+                <ScalarProperty Name="IsDigest" ColumnName="IsDigest" />
+                <ScalarProperty Name="TopLevel" ColumnName="TopLevel" />
+                <ScalarProperty Name="Child" ColumnName="Child" />
+                <ScalarProperty Name="Hits" ColumnName="Hits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="e_Users">
+            <EntityTypeMapping TypeName="ChinaHCM.QA.Core.Model.e_Users">
+              <MappingFragment StoreEntitySet="e_Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+                <ScalarProperty Name="UserQuesion" ColumnName="UserQuesion" />
+                <ScalarProperty Name="UserAnswer" ColumnName="UserAnswer" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="AddIp" ColumnName="AddIp" />
+                <ScalarProperty Name="TopicCnt" ColumnName="TopicCnt" />
+                <ScalarProperty Name="PostCnt" ColumnName="PostCnt" />
+                <ScalarProperty Name="DelCnt" ColumnName="DelCnt" />
+                <ScalarProperty Name="LoginCnt" ColumnName="LoginCnt" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

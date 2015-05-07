@@ -1,0 +1,35 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Models
+@model TopicView
+@{
+    ViewBag.Title = "互动交流系统-" + @Model.Title;
+}
+@*发帖搜索*@
+@{Html.RenderPartial("PartialTopBanner", new TopBannerModel() { BoardId = @Model.BoardId });}
+@*导航*@
+<div class="row">
+    @Html.Action("Nav", new { boardId = @Model.BoardId, topicId = @Model.TopicId })
+</div>
+@*帖子列表*@
+<div class="BBSList">
+    @Html.Action("GetBBSs", "BBS", new { topicId = @Model.TopicId, pageIndex = @ViewBag.PageIndex })
+</div>
+<div class="zeng_msgbox_layer_wrap" id="q_Msgbox" style=" display:block"></div>
+<script language="javascript">
+    //    $(function () {
+    //         try {
+    //                 $.ajax({
+    //                     type: "Post",
+    //                     url: "@Url.Action("SaveHits", "Topic", new { topicId = @Model.TopicId })",
+    //                     async: false,
+    //                     success: function (data) {
+    //                           if (data.Flag == "0")
+    //                           {
+    //                              ZENG.msgbox.show("更新点击次数成功",4, 3000);
+    //                            }
+    //                     }
+    //                 });
+    //             }
+    //             catch (e) { }
+    //    });
+</script>

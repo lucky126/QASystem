@@ -1,0 +1,112 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Core.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@model IEnumerable<BoardView>
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "版区管理";
+
+    var boards = Model.Where(b => true);
+
+    string _boardTypeName = "版区";
+    if (ViewBag.IsRoot)
+    {
+        _boardTypeName = "板块";
+    }
+    if (ViewBag.IsSub)
+    {
+        _boardTypeName = "分类";
+    }
+}
+<div id="listBody">
+    @ViewBag.BoardName 所属子版区/分类列表
+    <table cellpadding="4" cellspacing="1" border="0" class="list">
+        <thead>
+            <tr>
+                <td width="20%">
+                    @{@_boardTypeName}
+                    名称
+                </td>
+                <td width="15%">
+                    父节点
+                </td>
+                <td width="7%">
+                    @{@_boardTypeName}
+                    类型
+                </td>
+                <td width="15%">
+                    版主
+                </td>
+                <td width="5%">
+                    公共版区
+                </td>
+                <td width="7%">
+                    主贴数
+                </td>
+                <td width="7%">
+                    帖子数
+                </td>
+                <td width="25%">
+                    操作
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (BoardView board in boards)
+            {
+                <tr>
+                    <td style="text-align: left;">
+                        @Html.ActionLink(@board.Name, "EditBoard", new { boardId = @board.BoardId, parentId = @board.ParentID }, new { title = "编辑版区信息" })
+                    </td>
+                    <td>@Html.Action("GetBoardName", new { boardId = @board.ParentID })
+                    </td>
+                    <td>@GlobalConst.BoardTypeName[(int)@board.BoardType]
+                    </td>
+                    <td>
+                        @foreach (int str in @board.Master)
+                        { 
+                            <span>@Html.Action("GetNickName", "Account", new { userId = @str }) </span>
+                        }
+                    </td>
+                    <td>@Html.GetYesOrNo(@board.IsPublic)
+                    </td>
+                      <td>@board.TopicNum
+                    </td>
+                      <td>@board.PostNum
+                    </td>
+                    <td>
+                        @{
+                        string _boardTypeInfo = "版区";
+                        if (board.Depth > 0)
+                        {
+                            _boardTypeInfo = "分类";
+                        }
+                        }
+                        @if (board.Depth > 0)
+                        {
+                            @Html.ActionLink("新增分类", "EditBoard", new { boardId = 0, parentId = @board.BoardId })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("新增版区", "EditBoard", new { boardId = 0, parentId = @board.BoardId })
+                        }
+                        @if (board.CanDelete)
+                        { 
+                            @Html.ActionLink("删除", "DeleteBoard", new { boardId = @board.BoardId }, new { @onclick = "return confirm('你确认要删除所选版区么？');" })
+                        }
+                        @if(!board.IsLeaf)
+                        { 
+                            @Html.ActionLink("进入下一级", "BoardManager", new { parentId = @board.BoardId }, new { title = "点击查看下属" + _boardTypeInfo })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        @if (!ViewBag.IsRoot)
+        { 
+            @Html.ActionLink("返回上层", "BoardManager", new { parentId = @ViewBag.ParentId }, new { title = "点击返回上层" })
+        }
+    </div>
+</div>

@@ -1,0 +1,93 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Core.Model
+@model UserModel
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+    if (Model.IsNewUser)
+    {
+        ViewBag.Title = "新增用户";
+    }
+    else
+    {
+        ViewBag.Title = "编辑用户";
+    }
+}
+<div id="editBody">
+    @using (Html.BeginForm("EditUser", "Account"))
+    {
+        @Html.AntiForgeryToken();
+        @Html.ValidationSummary(true);
+        <table cellpadding="4" cellspacing="1" border="0" class="edit">
+            <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.LoginName)：
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.LoginName)
+                    @Html.ValidationMessageFor(m => m.LoginName)
+                </td>
+            </tr>
+            <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.Password)：
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.Password)
+                    @Html.ValidationMessageFor(m => m.Password)
+                </td>
+            </tr>
+             <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.Level)：
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.Level)
+                    @Html.ValidationMessageFor(m => m.Level)
+                </td>
+            </tr>
+            <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.RealName)：
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.RealName)
+                    @Html.ValidationMessageFor(m => m.RealName)
+                </td>
+            </tr>
+            <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.NickName)：
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.NickName)
+                    @Html.ValidationMessageFor(m => m.NickName)
+                </td>
+            </tr>
+            <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.Gender)：
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.Gender)
+                    @Html.ValidationMessageFor(m => m.Gender)
+                </td>
+            </tr>
+            <tr>
+                <td class="rightTd">
+                    @Html.LabelFor(m => m.UserEmail)：
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserEmail)
+                    @Html.ValidationMessageFor(m => m.UserEmail)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="centerTd">
+                    @Html.HiddenFor(m => m.UserId)
+                    @Html.HiddenFor(m => m.IsNewUser)
+                    <input type="submit" value="  保 存  " class="button" onclick="Save()" />
+                </td>
+            </tr>
+        </table>   
+    }
+</div>

@@ -1,0 +1,31 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Core.Model
+@using ChinaHCM.QA.Site.Web.Models
+@model BoardView
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "帖子管理--" + @Model.Name;
+}
+<div id="listBody" class="container">
+    @Model.Name 版区帖子管理
+    <div class="clearfix">
+        @if (Model.BoardType == BoardType.QA)
+        {   //QA 启用左右结构
+            @Html.Partial("PartialQATypeNav", new QATypeNav() { BoardId = @Model.BoardId, QAType = (QAType)ViewData["QAType"] })
+
+            <div class="panel panel-default">
+                <div class="table-responsive clearfix">
+                    @Html.Action("GetTopics", "Topic", new { boardId = @Model.BoardId, pageIndex = @ViewBag.PageIndex })
+                </div>
+            </div>
+        }
+        else
+        {   //论坛不启用左右结构
+            <div class="panel panel-default">
+                <div class="table-responsive clearfix">
+                    @Html.Action("GetTopics", "Topic", new { boardId = @Model.BoardId, pageIndex = @ViewBag.PageIndex })
+                </div>
+            </div>
+        }
+    </div>
+</div>

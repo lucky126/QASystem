@@ -1,0 +1,116 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Core.Model
+@model BoardModel
+@{
+	Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "新增/编辑版区";
+}
+<div id="editBody">
+	<script language="javascript">
+		function SetMaster(url, divId) {
+			try {
+				$.ajax({
+					type: "Get",
+					url: url,
+					async: false,
+					success: function (msg) {
+						$("#" + divId + "").empty();
+						$("#" + divId + "").append(msg);
+					}
+				});
+			}
+			catch (e) { }
+		}
+
+		$(function () {
+			SetMaster('@Html.Raw(@Url.Action("GetUser", "Account", new { userList = @Model.MasterList, isAll = false }))', 'master');
+			SetMaster('@Url.Action("GetUser", "Account", new { isAll = true })', 'allMaster');
+		});
+
+		function Save() {
+			var masters = "";
+			$("#master a").each(function () {
+				masters = masters + $(this).attr("value") + ",";
+			});
+			masters = masters.substr(0, masters.length - 1);
+			$("#MasterList").attr('value', masters);
+		}
+	</script>
+	@using (Html.BeginForm())
+	{
+		@Html.AntiForgeryToken();
+		@Html.ValidationSummary();
+		<table cellpadding="4" cellspacing="1" border="0" class="edit">
+			<tr>
+				<td class="rightTd">
+					版区名称：
+				</td>
+				<td>
+					@Html.TextBoxFor(m => m.Name)
+				</td>
+			</tr>
+			<tr>
+				<td class="rightTd">
+					所属版区：
+				</td>
+				<td>
+					@Html.Action("GetBoardName", new { boardId = Model.ParentID })
+				</td>
+			</tr>
+			<tr>
+				<td class="rightTd">
+					版区类型：
+				</td>
+				<td>
+					@if (Model.ParentID == 0)
+					{
+						int val = (int)Model.BoardType;
+						
+						@Html.RadioButton(Enum.GetName(Model.BoardType.GetType(), val), (int)Model.BoardType, true, new { @Name = "BoardType" })
+						@GlobalConst.BoardTypeName[val]
+					}
+					else
+					{@Html.EditorFor(m => m.BoardType)}
+				</td>
+			</tr>
+			<tr>
+				<td class="rightTd">
+					版主：
+				</td>
+				<td>
+					@Html.HiddenFor(m => m.MasterList)
+					<div>
+						<div class="plus-tag tagbtn clearfix" id="master">
+						</div>
+						<div class="plus-tag-add clearfix">
+							<a class="" href="javascript:void(0);">打开编辑</a>
+						</div>
+						<div id="mycard-plus" style="display: none;">
+							<div class="default-tag tagbtn">
+								<div class="clearfix" id="allMaster">
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="rightTd">
+					是否公共版区：
+				</td>
+				<td>
+					@Html.EditorFor(m => m.IsPublic) 是
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="centerTd">
+					@Html.HiddenFor(m => m.BoardId)
+					@Html.HiddenFor(m => m.ParentID)
+					<input type="submit" value="  保 存  " class="button" onclick="Save()" />
+				</td>
+			</tr>
+		</table>   
+	}
+</div>
+<link href="@Url.Content("~/Content/tag.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/tag.js")" type="text/javascript"></script>

@@ -1,0 +1,70 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@model AdvanceSearchModel
+@{
+    ViewBag.Title = " 互动交流系统--搜索";
+}
+@*发帖搜索*@
+@{Html.RenderPartial("PartialTopBanner", new TopBannerModel() { BoardId = @Model.BoardId });}
+@*导航*@
+<div class="row">
+    @Html.Action("Nav", "Topic", new { boardId = @Model.BoardId, lastNav = "高级搜索" })
+</div>
+
+@*高级搜索*@
+@using (Html.BeginForm("SearchResult", "Topic", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            高级搜索
+        </div>
+        <div class="panel-body">
+            <div class="form-group">@Html.ValidationSummary(true)</div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SearchContext, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.SearchContext, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.ValidationMessageFor(m => m.SearchContext)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.SearchScope, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.DropDownList("SearchScope", null, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.ValidationMessageFor(m => m.SearchScope)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.SearchType, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(m => m.SearchType, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.ValidationMessageFor(m => m.SearchType)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PostTime, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(m => m.PostTime, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.ValidationMessageFor(m => m.PostTime)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.HiddenFor(m => m.BoardId)
+                    <input type="submit" value=" 搜 索 " class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

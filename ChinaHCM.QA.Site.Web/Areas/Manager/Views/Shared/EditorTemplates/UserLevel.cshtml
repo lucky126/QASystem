@@ -1,0 +1,12 @@
+﻿@using ChinaHCM.QA.Core.Model
+@model UserLevel
+@foreach (int value in Enum.GetValues(typeof(UserLevel)))
+{
+    if (value > (int)UserLevel.Student && value <(int)UserLevel.SuperAdmin)
+    { 
+    <span>
+        @Html.RadioButton(Enum.GetName(Model.GetType(), value), value, value == (int)Model, new { @Name = "Level" })
+        @GlobalConst.LevelName[value]
+    </span>
+    }
+}

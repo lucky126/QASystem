@@ -1,0 +1,10 @@
+﻿@model IEnumerable<int>
+@if (Model != null && Model.ToList<int>().Count > 0)
+{ 
+    @:版主：
+
+    foreach (int userId in Model)
+    {        
+        @Html.Action("GetNickName", "Account", new { userId = @userId })
+    }
+}

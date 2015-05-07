@@ -1,0 +1,20 @@
+﻿@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Models
+@model IEnumerable<BoardView>
+@{
+    ViewBag.Title = "互动交流系统-首页";
+}
+@{Html.RenderPartial("PartialTopBanner", new TopBannerModel() { BoardId = 0 });}
+<div class="row">&nbsp;</div>
+@foreach (BoardView board in this.Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="ParentBoardName">@board.Name</span>
+            <span class="ParentBoardLink">@Html.RouteLink("进入", "BoardPage", new { boardId = @board.BoardId })</span>
+        </div>
+        <div class="panel-body">
+            @Html.Action("GetChild", new { parentId = @board.BoardId })
+        </div>
+    </div>
+}

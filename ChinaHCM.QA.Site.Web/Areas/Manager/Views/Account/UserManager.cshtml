@@ -1,0 +1,152 @@
+﻿@using ChinaHCM.QA.Site.Web.Models
+@using ChinaHCM.QA.Site.Model
+@using ChinaHCM.QA.Site.Web.Extensions
+@using ChinaHCM.QA.Core.Model
+@model IEnumerable<UserView>
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = ViewBag.TitleName;
+
+    PagingInfo pagingInfo = new PagingInfo
+    {
+        PageIndex = (int)ViewBag.PageIndex,
+        RecordCount = (int)ViewBag.RecordCount
+    };
+    Func<int, UrlHelper, string> pageUrlAccessor = (Func<int, UrlHelper, string>)ViewBag.PageUrlAccessor;
+}
+<div id="listBody" class="container">
+    @if (ViewBag.UserType == "Admin")
+    {
+        <div class="fr">
+            @Html.ActionLink("新增管理员", "AddUser", null, new { @class = "btn btn-primary" })
+        </div>
+    }
+    <div class="panel panel-default">
+        @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+        <table cellpadding="4" cellspacing="1" border="0" class="table table-striped table-hover" id="qalist">
+            <thead>
+            <td width="5%">
+                删除
+            </td>
+            <td width="15%">
+                用户名
+            </td>
+            <td width="10%">
+                用户姓名
+            </td>
+            <td width="10%">
+                用户昵称
+            </td>
+            <td width="5%">
+                性别
+            </td>
+            <td width="10%">
+                用户类型
+            </td>
+            <td width="15%">
+                添加时间
+            </td>
+            <td width="15%">
+                最后登录时间
+            </td>
+            <td width="15%">
+                操作
+            </td>
+            </thead>
+            @if (Model.Count() > 0)
+            {
+                using (Ajax.BeginForm("Delete", new AjaxOptions()
+                {
+                    HttpMethod = "Post",
+                    OnBegin = "CheckDel",
+                    OnSuccess = "DelUserSuccess"
+                }))
+                {
+                    <tbody>
+                        @foreach (UserView user in this.Model)
+                        {
+                            <tr onmouseout="this.style.backgroundColor='#FFFFFF'" onmousemove="this.style.backgroundColor='#F7FAF8'">
+                                <td class="textCenter">
+                                    @if (user.UserId != ViewBag.CurrentUser.UserId)
+                                    {
+                                        @Html.CheckBox("del", new { value = @user.UserId })
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink(@user.LoginName, "GetUserInfo", "Account", new { userId = @user.UserId }, new { title = "点击查看用户信息" })
+                                </td>
+                                <td class="textCenter">
+                                    @user.RealName
+                                </td>
+                                <td class="textCenter">
+                                    @user.NickName
+                                </td>
+                                <td class="textCenter">
+                                    @user.Gender
+                                </td>
+                                <td class="textCenter">
+                                    @GlobalConst.LevelName[(int)@user.Level]
+                                </td>
+                                <td class="textCenter">
+                                    @Html.FormatAllDateTime(@user.AddTime)
+                                </td>
+                                <td class="textCenter">
+                                    @Html.FormatAllDateTime(@user.LastLoginTime)
+                                </td>
+                                <td class="textCenter">
+                                    @Html.ActionLink("编辑", "EditUser", new { userId = @user.UserId })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9" style="padding-left: 20px;">
+                                @Html.CheckBox("AllCheck", new { onclick = "AllSelect()" }) 全选
+                                <input type="submit" value=" 删 除 " />
+                            </td>
+                        </tr>
+                    </tfoot>
+                }
+            }
+        </table>
+        @Html.PageLinks(pagingInfo, pageIndex => pageUrlAccessor(pageIndex, Url))
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('input[id="del"]').each(function () {
+            $(this).attr('checked', false)
+        });
+        $('input[id="del"]').bind("click", function () {
+            if ($(this).attr('checked') == false) {
+                $('#AllCheck').attr('checked', false);
+            }
+        });
+    });
+    function AllSelect() {
+        $('input[id="del"]').each(function () {
+            $(this).attr('checked', $('#AllCheck').attr('checked'))
+        });
+    }
+    function CheckDel() {
+        var hasSelect = false;
+        $('input[id="del"]').each(function () {
+            if ($(this).attr('checked'))
+                hasSelect = true;
+        });
+
+        if (!hasSelect) {
+            alert("请选择需要删除的用户");
+            return false;
+        }
+        else {
+            return confirm("你确认要删除所选用户么？");
+        }
+    }
+    function DelUserSuccess(data) {
+        if (data.Flag == "0") {
+            location.reload();
+        }
+    }
+</script>
